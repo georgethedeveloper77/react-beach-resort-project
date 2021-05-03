@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import items from "./data";
 import Client from "./Contentful";
 
+/*Client.getEntries({;
+  content_type:"beachResortRoom";
+}).then(response => console.log(response.items));*/
+
 const RoomContext = React.createContext();
 
 export default class RoomProvider extends Component {
@@ -26,6 +30,8 @@ export default class RoomProvider extends Component {
   //   try {
   //     let response = await Client.getEntries({
   //       content_type: "beachResortRoom"
+  //       order:"sys.createdAt"
+  //       order:"fields.price"
   //     });
   //     let rooms = this.formatData(response.items);
 
@@ -77,11 +83,13 @@ export default class RoomProvider extends Component {
     });
     return tempItems;
   }
+
   getRoom = slug => {
     let tempRooms = [...this.state.rooms];
     const room = tempRooms.find(room => room.slug === slug);
     return room;
   };
+
   handleChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -95,6 +103,7 @@ export default class RoomProvider extends Component {
       this.filterRooms
     );
   };
+
   filterRooms = () => {
     let {
       rooms,
@@ -138,6 +147,7 @@ export default class RoomProvider extends Component {
       sortedRooms: tempRooms
     });
   };
+
   render() {
     return (
       <RoomContext.Provider
@@ -152,6 +162,7 @@ export default class RoomProvider extends Component {
     );
   }
 }
+
 const RoomConsumer = RoomContext.Consumer;
 
 export { RoomProvider, RoomConsumer, RoomContext };
